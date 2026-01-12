@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Player } from '../types';
 import { Star, Shield, ArrowRight, AlertCircle, ChevronLeft } from 'lucide-react';
+import { AdUnit } from './AdUnit';
 
 interface AdvancedSetupStepProps {
   players: Player[];
@@ -58,11 +59,7 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
         )}
       </div>
 
-      {/* Ad Space Top */}
-      <div className="w-full h-24 bg-slate-900/30 border border-dashed border-slate-800 rounded-2xl flex items-center justify-center relative overflow-hidden">
-          <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest absolute top-2 right-4">Publicidade</span>
-          <div className="text-slate-800 font-bold text-[10px]">ADSENSE LEADERBOARD</div>
-      </div>
+      <AdUnit />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {players.map((player) => (
@@ -127,13 +124,8 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
         ))}
       </div>
 
-      {/* Ad Space Bottom */}
-      <div className="w-full h-40 bg-slate-900/20 border border-dashed border-slate-800 rounded-2xl flex items-center justify-center relative overflow-hidden">
-          <span className="text-[9px] font-black text-slate-800 uppercase tracking-widest absolute top-2 right-4">Publicidade</span>
-          <div className="text-slate-800 font-bold text-[10px]">ADSENSE RECTANGLE BANNER</div>
-      </div>
+      <AdUnit format="rectangle" />
 
-      {/* Footer Actions */}
       <div className="fixed bottom-0 left-0 right-0 p-6 bg-slate-950/90 backdrop-blur-xl border-t border-emerald-900/20 z-50">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-6">
              <button

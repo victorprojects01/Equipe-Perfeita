@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Team } from '../types';
 import { Shuffle, Copy, Check, ChevronLeft, Shield, UserCog, Share2 } from 'lucide-react';
+import { AdUnit } from './AdUnit';
 
 interface ResultsStepProps {
   teamA: Team;
@@ -89,7 +90,6 @@ Gerado por Equipe Perfeita ⚽
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-8 pb-32 animate-fade-in px-4 pt-4">
-      {/* Top Navigation */}
       <div className="flex justify-between items-center px-2">
         <button
             onClick={onReset}
@@ -101,7 +101,6 @@ Gerado por Equipe Perfeita ⚽
         <span className="text-emerald-500 font-black text-xs uppercase tracking-[0.3em]">Match Day</span>
       </div>
 
-      {/* Main Boards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:block">
             <div className="bg-emerald-500 text-white font-black italic text-4xl p-4 rounded-2xl shadow-2xl rotate-12 border-4 border-slate-950">VS</div>
@@ -113,12 +112,8 @@ Gerado por Equipe Perfeita ⚽
             borderColor="border-red-900/30"
         />
 
-        {/* Ad Space Mobile (In-feed) */}
-        <div className="md:hidden w-full py-2">
-             <div className="w-full h-64 bg-slate-900/40 border border-dashed border-slate-800 rounded-3xl flex items-center justify-center relative overflow-hidden">
-                <span className="text-[9px] font-black text-slate-700 uppercase tracking-widest absolute top-2 left-4">Publicidade</span>
-                <div className="text-slate-800 font-bold text-xs uppercase tracking-tighter">ADSENSE MID-CONTENT BANNER</div>
-             </div>
+        <div className="md:hidden">
+          <AdUnit format="rectangle" />
         </div>
 
         <TeamCard 
@@ -128,7 +123,8 @@ Gerado por Equipe Perfeita ⚽
         />
       </div>
 
-      {/* Score Comparison */}
+      <AdUnit />
+
       {mode === 'ADVANCED' && (
          <div className="bg-slate-900/50 border border-emerald-900/30 rounded-3xl p-6 text-center">
              <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">Equilíbrio Técnico</p>
@@ -151,13 +147,6 @@ Gerado por Equipe Perfeita ⚽
          </div>
       )}
 
-      {/* Desktop Footer Ad Space */}
-      <div className="hidden md:flex w-full h-24 bg-slate-900/20 border border-dashed border-slate-800 rounded-3xl items-center justify-center relative overflow-hidden">
-          <span className="text-[9px] font-black text-slate-800 uppercase tracking-[0.5em] absolute top-2 right-6">Publicidade</span>
-          <div className="text-slate-800 font-bold text-[11px] uppercase tracking-widest">GOOGLE ADSENSE LEADERBOARD (728x90)</div>
-      </div>
-
-      {/* Fixed Action Bar */}
       <div className="fixed bottom-0 left-0 right-0 p-6 bg-slate-950/95 backdrop-blur-xl border-t border-emerald-900/30 z-50">
         <div className="max-w-5xl mx-auto flex flex-wrap gap-4">
              {mode === 'ADVANCED' && onBackToSetup && (

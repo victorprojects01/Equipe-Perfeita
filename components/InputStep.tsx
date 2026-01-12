@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Dices, ShieldCheck, Trophy } from 'lucide-react';
 import { AppMode } from '../types';
+import { AdUnit } from './AdUnit';
 
 interface InputStepProps {
   onNext: (rawNames: string[], mode: AppMode) => void;
@@ -40,7 +41,6 @@ export const InputStep: React.FC<InputStepProps> = ({ onNext }) => {
         <p className="text-emerald-200/60 font-medium tracking-wide">DIVIDA O ELENCO E COMECE A PARTIDA</p>
       </div>
 
-      {/* Input Section */}
       <div className="relative group">
         <div className="absolute -inset-1 bg-gradient-to-r from-emerald-600 to-cyan-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
         <div className="relative bg-slate-900 border border-emerald-900/50 rounded-2xl overflow-hidden shadow-2xl">
@@ -71,7 +71,6 @@ export const InputStep: React.FC<InputStepProps> = ({ onNext }) => {
         </div>
       )}
 
-      {/* Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <button
           onClick={() => handleNext('BASIC')}
@@ -100,13 +99,7 @@ export const InputStep: React.FC<InputStepProps> = ({ onNext }) => {
         </button>
       </div>
 
-      {/* Ad Space */}
-      <div className="w-full pt-8 flex flex-col items-center">
-          <div className="w-full h-32 md:h-24 bg-slate-900/40 border border-dashed border-slate-800 rounded-xl flex items-center justify-center relative overflow-hidden">
-              <span className="text-[10px] font-black text-slate-700 uppercase tracking-[0.4em] absolute top-2 left-4">Publicidade</span>
-              <div className="text-slate-800 font-bold text-xs">GOOGLE ADSENSE BANNER</div>
-          </div>
-      </div>
+      <AdUnit className="mt-8" />
     </div>
   );
 };
