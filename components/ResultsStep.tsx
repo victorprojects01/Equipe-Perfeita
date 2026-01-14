@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Team } from '../types';
 import { Shuffle, Copy, Check, ChevronLeft, Shield, UserCog, Share2 } from 'lucide-react';
 import { AdUnit } from './AdUnit';
+import { RatingPopup } from './RatingPopup';
 
 interface ResultsStepProps {
   teamA: Team;
@@ -21,6 +22,7 @@ export const ResultsStep: React.FC<ResultsStepProps> = ({
   onBackToSetup,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [isRatingOpen, setIsRatingOpen] = useState(false);
 
   const copyToClipboard = () => {
     const text = `
@@ -37,6 +39,12 @@ Gerado por Equipe Perfeita ⚽
 
     navigator.clipboard.writeText(text);
     setCopied(true);
+    
+    // Abre o popup de avaliação após um pequeno delay para não chocar com o feedback do botão
+    setTimeout(() => {
+        setIsRatingOpen(true);
+    }, 1500);
+
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -90,6 +98,8 @@ Gerado por Equipe Perfeita ⚽
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-8 pb-32 animate-fade-in px-4 pt-4">
+      <RatingPopup isOpen={isRatingOpen} onClose={() => setIsRatingOpen(false)} />
+      
       <div className="flex justify-between items-center px-2">
         <button
             onClick={onReset}
