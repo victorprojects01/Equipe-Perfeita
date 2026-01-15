@@ -85,7 +85,7 @@ export const RatingPopup: React.FC<RatingPopupProps> = ({ isOpen, onClose }) => 
             <h3 className="text-2xl font-black uppercase italic tracking-tighter text-white">
               GOLAÇO!
             </h3>
-            <p className="text-slate-400 text-sm font-medium">Obrigado pelo seu feedback, craque!</p>
+            <p className="text-slate-400 text-sm font-medium">Obrigado pelo seu feedback e tenha um ótimo jogo, craque!</p>
           </div>
         )}
       </div>
