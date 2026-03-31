@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LOCAL_ADS, AdConfig } from '../src/constants/ads';
+import { supabase } from '../src/lib/supabase';
 
 interface LocalAdProps {
   ad?: AdConfig;
@@ -16,11 +17,52 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   className = '', 
   label = 'Publicidade' 
 }) => {
+  const [supabaseAds, setSupabaseAds] = useState<AdConfig[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchAds() {
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('ads')
+          .select('*')
+          .eq('is_active', true)
+          .order('display_order', { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const formattedAds: AdConfig[] = data.map(item => ({
+            imageName: item.image_url, // No Supabase, salvamos a URL completa ou o nome
+            link: item.link_url,
+            label: item.label,
+            isExternal: item.image_url.startsWith('http')
+          }));
+          setSupabaseAds(formattedAds);
+        }
+      } catch (err) {
+        console.error('Erro ao buscar anúncios do Supabase:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAds();
+  }, []);
+
   // Se um objeto de configuração de anúncio foi passado, usa ele
-  const finalAd = ad || (imageName ? { imageName, link: link || '#', label } : LOCAL_ADS[0]);
+  // Caso contrário, tenta usar o primeiro do Supabase, depois o primeiro local
+  const finalAd = ad || (imageName ? { imageName, link: link || '#', label } : (supabaseAds[0] || LOCAL_ADS[0]));
 
   // Se não houver imagem na config nem passada via prop, mostra o placeholder
   if (!finalAd || !finalAd.imageName) {
+    if (loading) return null; // Oculta enquanto carrega se não houver fallback imediato
+    
     return (
       <div className={`w-full flex flex-col items-center my-4 ${className}`}>
         <div className="w-full bg-slate-900/40 border border-dashed border-slate-800 rounded-2xl p-8 relative min-h-[150px] flex flex-col items-center justify-center overflow-hidden group">
@@ -29,7 +71,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
           </span>
           <div className="text-center space-y-2">
             <p className="text-slate-500 text-sm font-medium">Espaço Reservado para Publicidade</p>
-            <p className="text-slate-600 text-xs">Configure suas imagens e links em <code className="bg-slate-800 px-1 rounded">src/constants/ads.ts</code></p>
+            <p className="text-slate-600 text-xs">Configure suas imagens e links em <code className="bg-slate-800 px-1 rounded">src/constants/ads.ts</code> ou no Supabase</p>
           </div>
           
           {/* Efeito visual de fundo */}
@@ -39,6 +81,11 @@ export const LocalAd: React.FC<LocalAdProps> = ({
     );
   }
 
+  // Resolve a URL da imagem
+  const imageUrl = finalAd.isExternal 
+    ? finalAd.imageName 
+    : (finalAd.imageName.startsWith('http') ? finalAd.imageName : `/images/ads/${finalAd.imageName}`);
+
   return (
     <div className={`w-full flex flex-col items-center my-4 ${className}`}>
       <div className="w-full bg-slate-900/40 border border-slate-800 rounded-2xl relative overflow-hidden group">
@@ -47,7 +94,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
         </span>
         <a href={finalAd.link} target="_blank" rel="noopener noreferrer" className="block w-full">
           <img 
-            src={`/images/ads/${finalAd.imageName}`} 
+            src={imageUrl} 
             alt="Publicidade" 
             className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
           />

@@ -2,6 +2,7 @@ export interface AdConfig {
   imageName: string;
   link: string;
   label?: string;
+  isExternal?: boolean;
 }
 
 export const LOCAL_ADS: AdConfig[] = [
