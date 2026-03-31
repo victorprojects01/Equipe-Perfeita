@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Team } from '../types';
+import React, { useState, useMemo } from 'react';
+import { Team, Player } from '../types';
 import { Shuffle, Copy, Check, ChevronLeft, Shield, UserCog, Share2 } from 'lucide-react';
 import { AdUnit } from './AdUnit';
 import { RatingPopup } from './RatingPopup';
@@ -13,6 +13,22 @@ interface ResultsStepProps {
   onBackToSetup?: () => void;
 }
 
+const POSITION_ORDER: Record<string, number> = {
+  'GOL': 0,
+  'DEF': 1,
+  'LAT': 2,
+  'MC': 3,
+  'ATA': 4
+};
+
+const sortPlayers = (players: Player[]) => {
+  return [...players].sort((a, b) => {
+    const orderA = POSITION_ORDER[a.position || (a.isGoalkeeper ? 'GOL' : 'MC')] ?? 99;
+    const orderB = POSITION_ORDER[b.position || (b.isGoalkeeper ? 'GOL' : 'MC')] ?? 99;
+    return orderA - orderB;
+  });
+};
+
 export const ResultsStep: React.FC<ResultsStepProps> = ({
   teamA,
   teamB,
@@ -24,15 +40,18 @@ export const ResultsStep: React.FC<ResultsStepProps> = ({
   const [copied, setCopied] = useState(false);
   const [isRatingOpen, setIsRatingOpen] = useState(false);
 
+  const sortedA = useMemo(() => sortPlayers(teamA.players), [teamA.players]);
+  const sortedB = useMemo(() => sortPlayers(teamB.players), [teamB.players]);
+
   const copyToClipboard = () => {
     const text = `
 🏆 ESCALAÇÃO CONFIRMADA 🏆
 
 🔴 ${teamA.name.toUpperCase()}
-${teamA.players.map(p => `- ${p.name} ${p.isGoalkeeper ? '🧤' : ''}`).join('\n')}
+${sortedA.map(p => `- ${p.isGoalkeeper ? '🧤 ' : ''}${p.name}`).join('\n')}
 
 🔵 ${teamB.name.toUpperCase()}
-${teamB.players.map(p => `- ${p.name} ${p.isGoalkeeper ? '🧤' : ''}`).join('\n')}
+${sortedB.map(p => `- ${p.isGoalkeeper ? '🧤 ' : ''}${p.name}`).join('\n')}
 
 Gerado por Equipe Perfeita ⚽
     `.trim();
@@ -48,7 +67,7 @@ Gerado por Equipe Perfeita ⚽
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const TeamCard = ({ team, colorClass, borderColor }: { team: Team; colorClass: string; borderColor: string }) => (
+  const TeamCard = ({ team, sortedPlayers, colorClass, borderColor }: { team: Team; sortedPlayers: Player[]; colorClass: string; borderColor: string }) => (
     <div className={`bg-slate-900 rounded-3xl overflow-hidden border-2 ${borderColor} flex flex-col h-full shadow-2xl relative`}>
       <div className={`p-6 ${colorClass} text-white`}>
         <div className="flex justify-between items-center">
@@ -59,7 +78,7 @@ Gerado por Equipe Perfeita ⚽
         </div>
       </div>
       <div className="p-6 flex-1 space-y-3">
-        {team.players.map((p) => (
+        {sortedPlayers.map((p) => (
             <div 
               key={p.id} 
               className={`flex items-center gap-4 p-3 rounded-xl border ${
@@ -77,11 +96,9 @@ Gerado por Equipe Perfeita ⚽
                     <p className={`font-extrabold uppercase tracking-tight truncate ${p.isGoalkeeper ? 'text-emerald-400' : 'text-slate-100'}`}>
                     {p.name}
                     </p>
-                    {p.isGoalkeeper && (
-                    <span className="text-[9px] font-black text-emerald-600 uppercase tracking-widest leading-none">
-                        Goleiro Titular
+                    <span className={`text-[9px] font-black uppercase tracking-widest leading-none ${p.isGoalkeeper ? 'text-emerald-600' : 'text-slate-500'}`}>
+                        {p.position || (p.isGoalkeeper ? 'GOL' : 'MC')}
                     </span>
-                    )}
                 </div>
                 {mode === 'ADVANCED' && !p.isGoalkeeper && (
                     <div className="flex gap-0.5">
@@ -118,6 +135,7 @@ Gerado por Equipe Perfeita ⚽
 
         <TeamCard 
             team={teamA} 
+            sortedPlayers={sortedA}
             colorClass="bg-gradient-to-br from-red-600 to-red-800"
             borderColor="border-red-900/30"
         />
@@ -128,6 +146,7 @@ Gerado por Equipe Perfeita ⚽
 
         <TeamCard 
             team={teamB} 
+            sortedPlayers={sortedB}
             colorClass="bg-gradient-to-br from-blue-600 to-blue-800"
             borderColor="border-blue-900/30"
         />

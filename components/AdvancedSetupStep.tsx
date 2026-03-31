@@ -20,7 +20,7 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
 
   const toggleGoalkeeper = (id: string) => {
     const updated = players.map((p) =>
-      p.id === id ? { ...p, isGoalkeeper: !p.isGoalkeeper } : p
+      p.id === id ? { ...p, isGoalkeeper: !p.isGoalkeeper, position: (!p.isGoalkeeper ? 'GOL' : (p.position === 'GOL' ? 'MC' : p.position)) as Player['position'] } : p
     );
     onUpdatePlayers(updated);
     setError(null);
@@ -31,6 +31,14 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
       p.id === id ? { ...p, skill: newSkill } : p
     );
     onUpdatePlayers(updated);
+  };
+
+  const updatePosition = (id: string, newPosition: Player['position']) => {
+    const updated = players.map((p) =>
+      p.id === id ? { ...p, position: newPosition, isGoalkeeper: newPosition === 'GOL' } : p
+    );
+    onUpdatePlayers(updated);
+    setError(null);
   };
 
   const handleNext = () => {
@@ -91,6 +99,29 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
               >
                 <Shield size={22} fill={player.isGoalkeeper ? "currentColor" : "none"} />
               </button>
+            </div>
+
+            <div className="pt-4 border-t border-slate-800 mb-4">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Posição</span>
+                <span className="text-emerald-400 font-black text-sm">{player.position || 'MC'}</span>
+              </div>
+              <div className="flex gap-1">
+                {(['GOL', 'DEF', 'LAT', 'MC', 'ATA'] as const).map((pos) => (
+                  <button
+                    key={pos}
+                    onClick={() => updatePosition(player.id, pos)}
+                    className={`
+                      flex-1 h-8 rounded-lg text-[10px] font-black transition-all active:scale-95
+                      ${player.position === pos 
+                        ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20' 
+                        : 'bg-slate-800 text-slate-500 hover:bg-slate-700 hover:text-slate-300'}
+                    `}
+                  >
+                    {pos}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="pt-4 border-t border-slate-800">

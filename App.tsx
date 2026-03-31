@@ -26,6 +26,7 @@ const App: React.FC = () => {
         name,
         isGoalkeeper: isAutoGoalkeeper,
         skill: 3, // Default skill
+        position: isAutoGoalkeeper ? 'GOL' : 'MC',
       };
     });
 

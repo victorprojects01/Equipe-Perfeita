@@ -56,45 +56,72 @@ export const splitRandomly = (players: Player[]): [Team, Team] => {
 };
 
 /**
- * Advanced Mode: Balance teams based on skill and goalkeepers
+ * Advanced Mode: Balance teams based on skill and positions
  */
 export const splitBalanced = (players: Player[]): [Team, Team] => {
-  // 1. Separate Goalkeepers and Field Players
-  const goalkeepers = players.filter((p) => p.isGoalkeeper);
-  const fieldPlayers = players.filter((p) => !p.isGoalkeeper);
-
-  // 2. Assign Goalkeepers (First 2 randomized GKs)
-  const shuffledGks = shuffleArray(goalkeepers);
   const teamA: Player[] = [];
   const teamB: Player[] = [];
 
+  // 1. Separate Goalkeepers
+  const goalkeepers = players.filter((p) => p.isGoalkeeper || p.position === 'GOL');
+  const fieldPlayers = players.filter((p) => !p.isGoalkeeper && p.position !== 'GOL');
+
+  // 2. Assign Goalkeepers (First 2 randomized GKs)
+  const shuffledGks = shuffleArray(goalkeepers);
   if (shuffledGks.length >= 1) teamA.push(shuffledGks[0]);
   if (shuffledGks.length >= 2) teamB.push(shuffledGks[1]);
 
-  // 3. Remaining GKs and field players sorted by skill
+  // Handle extra GKs as field players
   const extraGks = shuffledGks.slice(2);
-  const sortedPool = [...fieldPlayers, ...extraGks].sort((a, b) => b.skill - a.skill);
+  const allFieldPlayers = [...fieldPlayers, ...extraGks];
 
-  // 4. Distribute Field Players by skill level
+  // 3. Group field players by position
+  const byPosition: Record<string, Player[]> = {
+    'DEF': [],
+    'LAT': [],
+    'MC': [],
+    'ATA': [],
+    'OTHER': []
+  };
+
+  allFieldPlayers.forEach(p => {
+    const pos = p.position || 'MC';
+    if (byPosition[pos]) {
+      byPosition[pos].push(p);
+    } else {
+      byPosition['OTHER'].push(p);
+    }
+  });
+
+  // 4. Distribute each position group
   let skillA = teamA.reduce((sum, p) => sum + p.skill, 0);
   let skillB = teamB.reduce((sum, p) => sum + p.skill, 0);
 
-  sortedPool.forEach((player) => {
-    if (teamA.length < teamB.length) {
-      teamA.push(player);
-      skillA += player.skill;
-    } else if (teamB.length < teamA.length) {
-      teamB.push(player);
-      skillB += player.skill;
-    } else {
-      if (skillA <= skillB) {
+  // Order of distribution to ensure key positions are balanced first
+  const posOrder = ['DEF', 'ATA', 'MC', 'LAT', 'OTHER'];
+
+  posOrder.forEach(pos => {
+    const group = byPosition[pos].sort((a, b) => b.skill - a.skill);
+    
+    group.forEach(player => {
+      // Try to keep team sizes equal first
+      if (teamA.length < teamB.length) {
         teamA.push(player);
         skillA += player.skill;
-      } else {
+      } else if (teamB.length < teamA.length) {
         teamB.push(player);
         skillB += player.skill;
+      } else {
+        // If sizes are equal, balance by skill
+        if (skillA <= skillB) {
+          teamA.push(player);
+          skillA += player.skill;
+        } else {
+          teamB.push(player);
+          skillB += player.skill;
+        }
       }
-    }
+    });
   });
 
   return [
