@@ -39,7 +39,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
         if (data && data.length > 0) {
           const formattedAds: AdConfig[] = data.map(item => ({
             imageName: item.image_url, // No Supabase, salvamos a URL completa ou o nome
-            link: item.link_url,
+            link: item.link,
             label: item.label,
             isExternal: item.image_url.startsWith('http')
           }));
