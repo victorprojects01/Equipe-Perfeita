@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Team, Player } from '../types';
 import { Shuffle, Copy, Check, ChevronLeft, Shield, UserCog, Share2 } from 'lucide-react';
-import { AdUnit } from './AdUnit';
 import { RatingPopup } from './RatingPopup';
 
 interface ResultsStepProps {
@@ -140,10 +139,6 @@ Gerado por Equipe Perfeita ⚽
             borderColor="border-red-900/30"
         />
 
-        <div className="md:hidden">
-          <AdUnit format="rectangle" />
-        </div>
-
         <TeamCard 
             team={teamB} 
             sortedPlayers={sortedB}
@@ -151,8 +146,6 @@ Gerado por Equipe Perfeita ⚽
             borderColor="border-blue-900/30"
         />
       </div>
-
-      <AdUnit />
 
       {mode === 'ADVANCED' && (
          <div className="bg-slate-900/50 border border-emerald-900/30 rounded-3xl p-6 text-center">

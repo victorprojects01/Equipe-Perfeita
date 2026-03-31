@@ -1,0 +1,1 @@
+# Este diretório é para imagens de publicidade (assets).

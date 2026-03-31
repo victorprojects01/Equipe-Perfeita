@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Dices, ShieldCheck, Trophy } from 'lucide-react';
 import { AppMode } from '../types';
-import { AdUnit } from './AdUnit';
 
 interface InputStepProps {
   onNext: (rawNames: string[], mode: AppMode) => void;
@@ -98,8 +97,6 @@ export const InputStep: React.FC<InputStepProps> = ({ onNext }) => {
           </div>
         </button>
       </div>
-
-      <AdUnit className="mt-8" />
     </div>
   );
 };
