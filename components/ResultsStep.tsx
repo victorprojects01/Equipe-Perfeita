@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Team, Player } from '../types';
 import { Shuffle, Copy, Check, ChevronLeft, Shield, UserCog, Share2 } from 'lucide-react';
 import { RatingPopup } from './RatingPopup';
+import { LocalAd } from './LocalAd';
 
 interface ResultsStepProps {
   teamA: Team;
@@ -168,6 +169,8 @@ Gerado por Equipe Perfeita ⚽
              </div>
          </div>
       )}
+
+      <LocalAd />
 
       <div className="fixed bottom-0 left-0 right-0 p-6 bg-slate-950/95 backdrop-blur-xl border-t border-emerald-900/30 z-50">
         <div className="max-w-5xl mx-auto flex flex-wrap gap-4">

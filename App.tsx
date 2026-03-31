@@ -9,9 +9,6 @@ import { splitRandomly, splitBalanced } from './utils/logic';
 // Helper for generating IDs since we don't have UUID library installed
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-import { LocalAd } from './components/LocalAd';
-import { LOCAL_ADS } from './src/constants/ads';
-
 const App: React.FC = () => {
   const [step, setStep] = useState<AppStep>('INPUT');
   const [mode, setMode] = useState<AppMode>('BASIC');
@@ -110,17 +107,6 @@ const App: React.FC = () => {
             onBackToSetup={handleBackToSetup}
           />
         )}
-
-        {/* Espaço para Publicidade Local */}
-        <div className="mt-12 max-w-2xl mx-auto space-y-4">
-          {LOCAL_ADS.length > 0 ? (
-            LOCAL_ADS.map((ad, index) => (
-              <LocalAd key={index} ad={ad} />
-            ))
-          ) : (
-            <LocalAd />
-          )}
-        </div>
 
       </div>
       

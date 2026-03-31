@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Player } from '../types';
 import { Star, Shield, ArrowRight, AlertCircle, ChevronLeft } from 'lucide-react';
+import { LocalAd } from './LocalAd';
 
 interface AdvancedSetupStepProps {
   players: Player[];
@@ -151,6 +152,8 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
           </div>
         ))}
       </div>
+
+      <LocalAd />
 
       <div className="fixed bottom-0 left-0 right-0 p-6 bg-slate-950/90 backdrop-blur-xl border-t border-emerald-900/20 z-50">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-6">
