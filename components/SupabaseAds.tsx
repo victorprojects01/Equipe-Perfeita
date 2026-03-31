@@ -9,7 +9,9 @@ export const SupabaseAds: React.FC = () => {
 
   useEffect(() => {
     async function fetchAds() {
+      console.log('Iniciando busca de anúncios no Supabase...');
       if (!supabase) {
+        console.error('Cliente Supabase não inicializado. Verifique as chaves VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY.');
         setLoading(false);
         return;
       }
@@ -21,7 +23,12 @@ export const SupabaseAds: React.FC = () => {
           .eq('is_active', true)
           .order('display_order', { ascending: true });
 
-        if (error) throw error;
+        if (error) {
+          console.error('Erro retornado pelo Supabase:', error.message, error.details);
+          throw error;
+        }
+
+        console.log('Dados recebidos do Supabase:', data);
 
         if (data) {
           const formattedAds: AdConfig[] = data.map(item => ({
@@ -33,7 +40,7 @@ export const SupabaseAds: React.FC = () => {
           setAds(formattedAds);
         }
       } catch (err) {
-        console.error('Erro ao buscar anúncios do Supabase:', err);
+        console.error('Erro catastrófico na busca:', err);
       } finally {
         setLoading(false);
       }

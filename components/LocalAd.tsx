@@ -21,6 +21,12 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Se já recebemos um anúncio via prop, não precisamos buscar no Supabase
+    if (ad) {
+      setLoading(false);
+      return;
+    }
+
     async function fetchAds() {
       if (!supabase) {
         setLoading(false);
@@ -82,9 +88,9 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   }
 
   // Resolve a URL da imagem
-  const imageUrl = finalAd.isExternal 
+  const imageUrl = finalAd.imageName?.startsWith('http') 
     ? finalAd.imageName 
-    : (finalAd.imageName.startsWith('http') ? finalAd.imageName : `/images/ads/${finalAd.imageName}`);
+    : `/images/ads/${finalAd.imageName}`;
 
   return (
     <div className={`w-full flex flex-col items-center my-4 ${className}`}>
@@ -96,6 +102,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
           <img 
             src={imageUrl} 
             alt="Publicidade" 
+            referrerPolicy="no-referrer"
             className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </a>
