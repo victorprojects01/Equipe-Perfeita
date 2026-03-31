@@ -81,9 +81,10 @@ export const LocalAd: React.FC<LocalAdProps> = ({
         const pathPart = originalImageUrl.split('/storage/v1/object/public/')[1];
         const parts = pathPart.split('/');
         const bucket = parts[0];
-        const filename = parts.slice(1).join('/');
+        const filenameWithQuery = parts.slice(1).join('/');
         
-        if (bucket && filename) {
+        if (bucket && filenameWithQuery) {
+          const filename = filenameWithQuery.split('?')[0];
           const supabaseClient = supabase;
           const tryDownload = async () => {
             try {
@@ -155,6 +156,8 @@ export const LocalAd: React.FC<LocalAdProps> = ({
           <img 
             src={imageUrl} 
             alt="Destaque" 
+            referrerPolicy="no-referrer"
+            crossOrigin="anonymous"
             onError={() => {
               console.error('Falha ao carregar imagem:', imageUrl);
               if (blobUrl) {

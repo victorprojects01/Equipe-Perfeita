@@ -29,6 +29,7 @@ export const SupabaseAds: React.FC = () => {
         }
 
         console.log('Dados recebidos do Supabase:', data);
+        console.log(`Encontrados ${data?.length || 0} anúncios ativos.`);
 
         if (data) {
           // Remove duplicatas baseadas no link E na URL da imagem

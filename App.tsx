@@ -112,14 +112,15 @@ const App: React.FC = () => {
           />
         )}
 
-        {/* Espaço para Publicidade Local e Supabase */}
-        <div className="mt-12 max-w-2xl mx-auto space-y-4">
-          {LOCAL_ADS.length > 0 ? (
-            <LocalAd ad={LOCAL_ADS[0]} />
-          ) : (
-            <SupabaseAds />
-          )}
-        </div>
+        {step !== 'RESULTS' && (
+          <div className="mt-12 max-w-2xl mx-auto space-y-4">
+            {LOCAL_ADS.length > 0 ? (
+              <LocalAd ad={LOCAL_ADS[0]} />
+            ) : (
+              <SupabaseAds />
+            )}
+          </div>
+        )}
 
       </div>
       
