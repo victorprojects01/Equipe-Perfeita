@@ -87,10 +87,23 @@ export const LocalAd: React.FC<LocalAdProps> = ({
     );
   }
 
+  const [imageError, setImageError] = useState(false);
+
   // Resolve a URL da imagem
   const imageUrl = finalAd.imageName?.startsWith('http') 
     ? finalAd.imageName 
     : `/images/ads/${finalAd.imageName}`;
+
+  if (imageError) {
+    return (
+      <div className={`w-full flex flex-col items-center my-4 ${className}`}>
+        <div className="w-full bg-slate-900/40 border border-dashed border-red-900/30 rounded-2xl p-6 flex flex-col items-center justify-center">
+          <p className="text-red-400/60 text-[10px] font-bold uppercase tracking-widest mb-1">Erro de Carregamento</p>
+          <p className="text-slate-500 text-xs text-center">A imagem do patrocinador não pôde ser carregada.<br/>Verifique se o Bucket 'ads' no Supabase é Público.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`w-full flex flex-col items-center my-4 ${className}`}>
@@ -103,6 +116,10 @@ export const LocalAd: React.FC<LocalAdProps> = ({
             src={imageUrl} 
             alt="Publicidade" 
             referrerPolicy="no-referrer"
+            onError={() => {
+              console.error('Falha ao carregar imagem:', imageUrl);
+              setImageError(true);
+            }}
             className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </a>
