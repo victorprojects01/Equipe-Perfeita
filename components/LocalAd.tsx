@@ -15,10 +15,11 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   imageName, 
   link, 
   className = '', 
-  label = 'Publicidade' 
+  label = 'Destaque' 
 }) => {
   const [supabaseAds, setSupabaseAds] = useState<AdConfig[]>([]);
   const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     // Se já recebemos um anúncio via prop, não precisamos buscar no Supabase
@@ -87,8 +88,6 @@ export const LocalAd: React.FC<LocalAdProps> = ({
     );
   }
 
-  const [imageError, setImageError] = useState(false);
-
   // Resolve a URL da imagem
   const imageUrl = finalAd.imageName?.startsWith('http') 
     ? finalAd.imageName 
@@ -98,8 +97,8 @@ export const LocalAd: React.FC<LocalAdProps> = ({
     return (
       <div className={`w-full flex flex-col items-center my-4 ${className}`}>
         <div className="w-full bg-slate-900/40 border border-dashed border-red-900/30 rounded-2xl p-6 flex flex-col items-center justify-center">
-          <p className="text-red-400/60 text-[10px] font-bold uppercase tracking-widest mb-1">Erro de Carregamento</p>
-          <p className="text-slate-500 text-xs text-center">A imagem do patrocinador não pôde ser carregada.<br/>Verifique se o Bucket 'ads' no Supabase é Público.</p>
+          <p className="text-red-400/60 text-[10px] font-bold uppercase tracking-widest mb-1">Conteúdo Indisponível</p>
+          <p className="text-slate-500 text-xs text-center">Não foi possível carregar o conteúdo.<br/>Dica: Se você usa AdBlock, tente renomear o bucket 'ads' para 'banners'.</p>
         </div>
       </div>
     );
@@ -114,10 +113,9 @@ export const LocalAd: React.FC<LocalAdProps> = ({
         <a href={finalAd.link} target="_blank" rel="noopener noreferrer" className="block w-full">
           <img 
             src={imageUrl} 
-            alt="Publicidade" 
-            referrerPolicy="no-referrer"
+            alt="Destaque" 
             onError={() => {
-              console.error('Falha ao carregar imagem:', imageUrl);
+              console.error('Falha ao carregar:', imageUrl);
               setImageError(true);
             }}
             className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
