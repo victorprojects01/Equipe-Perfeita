@@ -20,6 +20,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   const [supabaseAds, setSupabaseAds] = useState<AdConfig[]>([]);
   const [loading, setLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
   useEffect(() => {
     // Se já recebemos um anúncio via prop, não precisamos buscar no Supabase
@@ -60,11 +61,56 @@ export const LocalAd: React.FC<LocalAdProps> = ({
     }
 
     fetchAds();
-  }, []);
+  }, [ad]);
 
   // Se um objeto de configuração de anúncio foi passado, usa ele
   // Caso contrário, tenta usar o primeiro do Supabase, depois o primeiro local
   const finalAd = ad || (imageName ? { imageName, link: link || '#', label } : (supabaseAds[0] || LOCAL_ADS[0]));
+
+  // Resolve a URL da imagem
+  const originalImageUrl = finalAd?.imageName?.startsWith('http') 
+    ? finalAd.imageName 
+    : `/images/ads/${finalAd?.imageName}`;
+
+  useEffect(() => {
+    if (!finalAd || !finalAd.imageName || !supabase) return;
+
+    // Se a imagem está no Supabase, tentamos baixar como blob para burlar adblockers
+    if (originalImageUrl.includes('.supabase.co/storage/v1/object/public/')) {
+      try {
+        const pathPart = originalImageUrl.split('/storage/v1/object/public/')[1];
+        const parts = pathPart.split('/');
+        const bucket = parts[0];
+        const filename = parts.slice(1).join('/');
+        
+        if (bucket && filename) {
+          const supabaseClient = supabase;
+          const tryDownload = async () => {
+            try {
+              if (!supabaseClient) return;
+              const { data, error } = await supabaseClient.storage.from(bucket).download(filename);
+              if (error) throw error;
+              if (data) {
+                const url = URL.createObjectURL(data);
+                setBlobUrl(url);
+              }
+            } catch (err) {
+              console.warn(`Falha ao baixar imagem do bucket '${bucket}' via SDK:`, err);
+            }
+          };
+          tryDownload();
+        }
+      } catch (err) {
+        console.error('Erro ao processar URL do Supabase:', err);
+      }
+    }
+
+    return () => {
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
+    };
+  }, [originalImageUrl, finalAd, supabase]);
+
+  const imageUrl = blobUrl || originalImageUrl;
 
   // Se não houver imagem na config nem passada via prop, mostra o placeholder
   if (!finalAd || !finalAd.imageName) {
@@ -88,11 +134,6 @@ export const LocalAd: React.FC<LocalAdProps> = ({
     );
   }
 
-  // Resolve a URL da imagem
-  const imageUrl = finalAd.imageName?.startsWith('http') 
-    ? finalAd.imageName 
-    : `/images/ads/${finalAd.imageName}`;
-
   if (imageError) {
     return (
       <div className={`w-full flex flex-col items-center my-4 ${className}`}>
@@ -115,8 +156,13 @@ export const LocalAd: React.FC<LocalAdProps> = ({
             src={imageUrl} 
             alt="Destaque" 
             onError={() => {
-              console.error('Falha ao carregar:', imageUrl);
-              setImageError(true);
+              console.error('Falha ao carregar imagem:', imageUrl);
+              if (blobUrl) {
+                console.warn('A imagem falhou mesmo sendo um Blob URL. Tentando URL original...');
+                setBlobUrl(null); // Tenta a URL original se o blob falhar
+              } else {
+                setImageError(true);
+              }
             }}
             className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
           />

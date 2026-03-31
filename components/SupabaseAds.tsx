@@ -56,8 +56,8 @@ export const SupabaseAds: React.FC = () => {
           const formattedAds: AdConfig[] = Array.from(uniqueAdsMap.values())
             .filter(val => typeof val === 'object' && val !== null) as AdConfig[];
           
-          // Embaralhar e pegar apenas os 2 primeiros
-          const shuffled = formattedAds.sort(() => 0.5 - Math.random()).slice(0, 2);
+          // Embaralhar e pegar apenas o primeiro
+          const shuffled = formattedAds.sort(() => 0.5 - Math.random()).slice(0, 1);
           setAds(shuffled);
         }
       } catch (err) {
