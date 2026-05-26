@@ -1,20 +1,52 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Equipe Perfeita
 
-# Run and deploy your AI Studio app
+Aplicação web para dividir jogadores em dois times de forma rápida, prática e visual. O app foi pensado para partidas de futebol, society, futsal ou qualquer jogo em que seja preciso montar equipes equilibradas sem discussão antes da partida.
 
-This contains everything you need to run your app locally.
+## O que o app faz
 
-View your app in AI Studio: https://ai.studio/apps/5b7808c7-3234-41d1-a350-c7bb6013b21e
+- Recebe uma lista de jogadores, um por linha.
+- Sorteia dois times automaticamente no modo rápido.
+- Permite configurar goleiros, posições e nível técnico no modo avançado.
+- Tenta equilibrar os times por quantidade de jogadores, habilidade e posição.
+- Mantém goleiros em times opostos quando possível.
+- Gera uma escalação pronta para copiar e enviar.
+- Exibe espaços opcionais para anúncios locais ou vindos do Supabase.
 
-## Run Locally
+## Modos de uso
 
-**Prerequisites:**  Node.js
+### Sorteio Rápido
 
+Ideal para começar sem configurar nada. Basta colar os nomes dos jogadores e o app divide a lista em dois times aleatórios.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Dica: se o nome tiver a palavra `goleiro`, o app já identifica esse jogador como goleiro automaticamente.
+
+### Escalação Elite
+
+Modo avançado para partidas em que o equilíbrio importa mais. Nele você pode ajustar:
+
+- Goleiro
+- Posição: `GOL`, `DEF`, `LAT`, `MC`, `ATA`
+- Habilidade de 1 a 5 estrelas
+
+Depois disso, o app monta os times buscando equilibrar força total e distribuição por posição.
+
+## Tecnologias
+
+- React
+- TypeScript
+- Vite
+- Supabase
+- lucide-react
+- uuid
+
+## Como rodar localmente
+
+### Pré-requisitos
+
+- Node.js instalado
+- npm instalado
+
+### Instalação
+
+```bash
+npm install
