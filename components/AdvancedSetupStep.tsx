@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Player } from '../types';
 import { Star, Shield, ArrowRight, AlertCircle, ChevronLeft } from 'lucide-react';
-import { AdSenseAd } from './AdSenseAd';
 
 interface AdvancedSetupStepProps {
   players: Player[];
@@ -52,7 +51,7 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8 pb-32 pt-4 px-4">
+    <div className="w-full max-w-5xl mx-auto space-y-8 pt-4 px-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-emerald-900/30 pb-6">
         <div>
            <h2 className="text-4xl font-extrabold text-white uppercase italic tracking-tighter">Ficha Técnica</h2>
@@ -153,9 +152,7 @@ export const AdvancedSetupStep: React.FC<AdvancedSetupStepProps> = ({
         ))}
       </div>
 
-      <AdSenseAd />
-
-      <div className="fixed bottom-0 left-0 right-0 p-6 bg-slate-950/90 backdrop-blur-xl border-t border-emerald-900/20 z-50">
+      <div className="py-6 bg-slate-950/90 border-t border-emerald-900/20">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-6">
              <button
                 onClick={onBack}

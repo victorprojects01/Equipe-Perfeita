@@ -113,7 +113,7 @@ Gerado por Equipe Perfeita ⚽
   );
 
   return (
-    <div className="w-full max-w-5xl mx-auto space-y-8 pb-32 animate-fade-in px-4 pt-4">
+    <div className="w-full max-w-5xl mx-auto space-y-8 animate-fade-in px-4 pt-4">
       <RatingPopup isOpen={isRatingOpen} onClose={() => setIsRatingOpen(false)} />
       
       <div className="flex justify-between items-center px-2">
@@ -169,7 +169,7 @@ Gerado por Equipe Perfeita ⚽
          </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 p-6 bg-slate-950/95 backdrop-blur-xl border-t border-emerald-900/30 z-50">
+      <div className="py-6 bg-slate-950/95 border-t border-emerald-900/30">
         <div className="max-w-5xl mx-auto flex flex-wrap gap-4">
              {mode === 'ADVANCED' && onBackToSetup && (
                <button

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Dices, ShieldCheck, Trophy } from 'lucide-react';
 import { AppMode } from '../types';
-import { AdSenseAd } from './AdSenseAd';
 
 interface InputStepProps {
   onNext: (rawNames: string[], mode: AppMode) => void;
@@ -99,7 +98,6 @@ export const InputStep: React.FC<InputStepProps> = ({ onNext }) => {
         </button>
       </div>
 
-      <AdSenseAd className="mt-8" />
     </div>
   );
 };

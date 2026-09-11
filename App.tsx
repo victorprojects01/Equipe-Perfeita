@@ -110,16 +110,14 @@ const App: React.FC = () => {
           />
         )}
 
-        {step !== 'RESULTS' && (
-          <div className="mt-12 max-w-2xl mx-auto space-y-4">
-            <AdSenseAd />
-          </div>
-        )}
+        <div style={{ width: '100%', maxWidth: 970, margin: '48px auto', clear: 'both' }}>
+          <AdSenseAd />
+        </div>
 
       </div>
       
       {/* Simple Footer */}
-      <footer className="fixed bottom-4 right-4 hidden md:block opacity-50 hover:opacity-100 transition-opacity">
+      <footer className="px-4 pb-4 text-center opacity-50 hover:opacity-100 transition-opacity">
         <span className="text-xs text-slate-600">Equipe Perfeita v1.0</span>
       </footer>
     </div>
