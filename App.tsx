@@ -9,9 +9,7 @@ import { splitRandomly, splitBalanced } from './utils/logic';
 // Helper for generating IDs since we don't have UUID library installed
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-import { LocalAd } from './components/LocalAd';
-import { SupabaseAds } from './components/SupabaseAds';
-import { LOCAL_ADS } from './src/constants/ads';
+import { AdSenseAd } from './components/AdSenseAd';
 
 const App: React.FC = () => {
   const [step, setStep] = useState<AppStep>('INPUT');
@@ -114,11 +112,7 @@ const App: React.FC = () => {
 
         {step !== 'RESULTS' && (
           <div className="mt-12 max-w-2xl mx-auto space-y-4">
-            {LOCAL_ADS.length > 0 ? (
-              <LocalAd ad={LOCAL_ADS[0]} />
-            ) : (
-              <SupabaseAds />
-            )}
+            <AdSenseAd />
           </div>
         )}
 

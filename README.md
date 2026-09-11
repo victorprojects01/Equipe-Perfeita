@@ -50,3 +50,19 @@ Depois disso, o app monta os times buscando equilibrar força total e distribui�
 
 ```bash
 npm install
+
+```
+
+## Google AdSense
+
+O script global usa o publicador `ca-pub-6239237268971394`. Os espaços de publicidade nas telas inicial e avançada usam o componente `AdSenseAd`, com blocos responsivos.
+
+O bloco responsivo `ad_01`, com `data-ad-slot="2219850050"`, já está configurado como padrão nos espaços existentes, sem exigir variáveis de ambiente.
+
+Para usar outro bloco, configure `VITE_ADSENSE_SLOT` no `.env.local` ou no ambiente de build da hospedagem. Execute `npm run build` e publique a pasta `dist`. Alterações nessa variável exigem um novo build.
+
+Definir explicitamente `VITE_ADSENSE_SLOT` como vazio oculta os espaços manuais e desativa suas solicitações. O script global continua disponível para anúncios automáticos, caso estejam ativados no painel do AdSense; seus posicionamentos são definidos pelo Google. A exibição depende da aprovação do site e da disponibilidade de anúncios.
+
+O arquivo `public/ads.txt` é publicado em `/ads.txt` e autoriza o publicador informado.
+
+Referência: https://support.google.com/adsense/answer/9274019?hl=pt-BR
