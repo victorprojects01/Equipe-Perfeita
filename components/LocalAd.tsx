@@ -15,7 +15,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   imageName, 
   link, 
   className = '', 
-  label = 'Destaque' 
+  label = 'Publicidade' 
 }) => {
   const [supabaseAds, setSupabaseAds] = useState<AdConfig[]>([]);
   const [loading, setLoading] = useState(true);
@@ -152,10 +152,10 @@ export const LocalAd: React.FC<LocalAdProps> = ({
         <span className="text-[9px] font-black text-white/50 uppercase tracking-[0.3em] absolute top-3 left-4 z-10 drop-shadow-md">
           {finalAd.label || label}
         </span>
-        <a href={finalAd.link} target="_blank" rel="noopener noreferrer" className="block w-full">
+        <a href={finalAd.link} target="_blank" rel="noopener noreferrer nofollow" className="block w-full">
           <img 
             src={imageUrl} 
-            alt="Destaque" 
+            alt={finalAd.label || label || "Publicidade"} 
             referrerPolicy="no-referrer"
             crossOrigin="anonymous"
             onError={() => {

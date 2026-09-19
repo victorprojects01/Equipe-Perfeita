@@ -1,0 +1,6 @@
+# robots.txt for Equipe Perfeita
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://equipe-perfeita.com/sitemap.xml

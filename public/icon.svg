@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="pitchGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+  </defs>
+  <!-- Background Shield -->
+  <path d="M256 32 C370 32 448 80 448 200 C448 352 300 448 256 480 C212 448 64 352 64 200 C64 80 142 32 256 32 Z" fill="url(#shieldGrad)" stroke="#10b981" stroke-width="12" />
+  
+  <!-- Pitch Lines -->
+  <path d="M120 200 L392 200" stroke="#10b981" stroke-width="6" opacity="0.4" />
+  <circle cx="256" cy="240" r="64" fill="none" stroke="#10b981" stroke-width="6" opacity="0.4" />
+  <circle cx="256" cy="240" r="8" fill="#10b981" opacity="0.6" />
+
+  <!-- Soccer Ball / Star Icon -->
+  <g transform="translate(196, 180) scale(0.24)">
+    <circle cx="250" cy="250" r="230" fill="#ffffff" stroke="#0f172a" stroke-width="12"/>
+    <!-- Pentagon in center -->
+    <polygon points="250,140 335,200 305,300 195,300 165,200" fill="#0f172a"/>
+    <!-- Outer patches -->
+    <polygon points="250,140 250,30 330,60 335,200" fill="#0f172a"/>
+    <polygon points="335,200 450,200 420,290 305,300" fill="#0f172a"/>
+    <polygon points="305,300 350,420 250,460 195,300" fill="#0f172a"/>
+    <polygon points="195,300 150,420 70,360 165,200" fill="#0f172a"/>
+    <polygon points="165,200 60,180 100,70 250,140" fill="#0f172a"/>
+  </g>
+
+  <!-- Stars -->
+  <path d="M256 80 L266 104 L292 106 L272 122 L278 148 L256 134 L234 148 L240 122 L220 106 L246 104 Z" fill="#fbbf24" />
+  <path d="M190 95 L198 114 L218 116 L202 129 L207 149 L190 138 L173 149 L178 129 L162 116 L182 114 Z" fill="#fbbf24" opacity="0.8" />
+  <path d="M322 95 L330 114 L350 116 L334 129 L339 149 L322 138 L305 149 L310 129 L294 116 L314 114 Z" fill="#fbbf24" opacity="0.8" />
+</svg>
