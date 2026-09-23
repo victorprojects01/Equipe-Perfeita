@@ -10,6 +10,7 @@ import { splitRandomly, splitBalanced } from './utils/logic';
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
 import { AdSenseAd } from './components/AdSenseAd';
+import { AmazonAffiliateAds } from './components/AmazonAffiliateAds';
 
 const App: React.FC = () => {
   const [step, setStep] = useState<AppStep>('INPUT');
@@ -109,6 +110,8 @@ const App: React.FC = () => {
             onBackToSetup={handleBackToSetup}
           />
         )}
+
+        <AmazonAffiliateAds />
 
         <div style={{ width: '100%', maxWidth: 970, margin: '48px auto', clear: 'both' }}>
           <AdSenseAd />

@@ -53,6 +53,22 @@ npm install
 
 ```
 
+## Amazon Associados
+
+O componente `components/AmazonAffiliateAds.tsx` exibe os dois links fornecidos pelo titular após o conteúdo principal, antes do AdSense, em todas as etapas. Os cartões ficam empilhados no celular e lado a lado a partir de 640 px.
+
+O bloco identifica a publicidade, apresenta a declaração de remuneração do Programa de Associados e identifica cada botão como link de afiliado. Preserva os endereços `amzn.to` originais, usa `rel="sponsored nofollow noopener"` e só abre a Amazon após um clique. Não usa imagens de produtos, logotipos, preços, avaliações, disponibilidade ou promessas de desconto. Inclui um aviso sobre a atribuição de compras e acesso à Notificação de Privacidade da Amazon.
+
+Antes de publicar, o titular deve confirmar que o domínio está cadastrado na conta de Associados e que os links pertencem à sua conta. O código não verifica a situação da conta nem garante aprovação da Amazon. A política de privacidade e as escolhas de cookies do site também devem refletir as tecnologias efetivamente utilizadas, inclusive pelo AdSense; o aviso deste bloco trata apenas dos links da Amazon.
+
+Para atualizar os produtos, edite a lista `amazonLinks` no componente, preservando os links gerados pela Amazon e conferindo a correspondência entre título e destino. Gere novamente a pasta `dist` com `npm run build` e publique-a na hospedagem.
+
+Referências oficiais consultadas em 23/09/2026:
+
+- [Identificação de publicidade e de associado](https://associados.amazon.com.br/help/node/topic/GPXFHVYZMTGPUMPE)
+- [Contrato Operacional, seção 5](https://associados.amazon.com.br/help/operating/agreement/)
+- [Políticas do Programa](https://associados.amazon.com.br/help/operating/policies)
+
 ## Google AdSense
 
 O script global usa o publicador `ca-pub-6239237268971394` e é carregado uma única vez no `<head>`. O componente `AdSenseAd` mantém um bloco responsivo após o conteúdo nas telas inicial, avançada e de resultados, sem remontar o anúncio durante as trocas de etapa ou sorteios.
