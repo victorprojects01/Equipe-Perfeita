@@ -10,12 +10,12 @@ interface LocalAdProps {
   label?: string;
 }
 
-export const LocalAd: React.FC<LocalAdProps> = ({ 
+export const LocalAd: React.FC<LocalAdProps> = ({
   ad,
-  imageName, 
-  link, 
-  className = '', 
-  label = 'Destaque' 
+  imageName,
+  link,
+  className = '',
+  label = 'Publicidade'
 }) => {
   const [supabaseAds, setSupabaseAds] = useState<AdConfig[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,8 +68,8 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   const finalAd = ad || (imageName ? { imageName, link: link || '#', label } : (supabaseAds[0] || LOCAL_ADS[0]));
 
   // Resolve a URL da imagem
-  const originalImageUrl = finalAd?.imageName?.startsWith('http') 
-    ? finalAd.imageName 
+  const originalImageUrl = finalAd?.imageName?.startsWith('http')
+    ? finalAd.imageName
     : `/images/ads/${finalAd?.imageName}`;
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
         const parts = pathPart.split('/');
         const bucket = parts[0];
         const filenameWithQuery = parts.slice(1).join('/');
-        
+
         if (bucket && filenameWithQuery) {
           const filename = filenameWithQuery.split('?')[0];
           const supabaseClient = supabase;
@@ -116,7 +116,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
   // Se não houver imagem na config nem passada via prop, mostra o placeholder
   if (!finalAd || !finalAd.imageName) {
     if (loading) return null; // Oculta enquanto carrega se não houver fallback imediato
-    
+
     return (
       <div className={`w-full flex flex-col items-center my-4 ${className}`}>
         <div className="w-full bg-slate-900/40 border border-dashed border-slate-800 rounded-2xl p-8 relative min-h-[150px] flex flex-col items-center justify-center overflow-hidden group">
@@ -127,7 +127,7 @@ export const LocalAd: React.FC<LocalAdProps> = ({
             <p className="text-slate-500 text-sm font-medium">Espaço Reservado para Publicidade</p>
             <p className="text-slate-600 text-xs">Configure suas imagens e links em <code className="bg-slate-800 px-1 rounded">src/constants/ads.ts</code> ou no Supabase</p>
           </div>
-          
+
           {/* Efeito visual de fundo */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
@@ -152,10 +152,10 @@ export const LocalAd: React.FC<LocalAdProps> = ({
         <span className="text-[9px] font-black text-white/50 uppercase tracking-[0.3em] absolute top-3 left-4 z-10 drop-shadow-md">
           {finalAd.label || label}
         </span>
-        <a href={finalAd.link} target="_blank" rel="noopener noreferrer" className="block w-full">
-          <img 
-            src={imageUrl} 
-            alt="Destaque" 
+        <a href={finalAd.link} target="_blank" rel="noopener noreferrer nofollow" className="block w-full">
+          <img
+            src={imageUrl}
+            alt={finalAd.label || label || "Publicidade"}
             referrerPolicy="no-referrer"
             crossOrigin="anonymous"
             onError={() => {

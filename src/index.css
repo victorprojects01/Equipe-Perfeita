@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #020617;
+}
+
+.field-pattern {
+  background-image: radial-gradient(#10b981 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+  opacity: 0.1;
+}
+
+.pitch-gradient {
+  background: radial-gradient(circle at center, #064e3b 0%, #020617 100%);
+}
+
+/* Smooth Transitions */
+.fade-enter { opacity: 0; transform: translateY(10px); }
+.fade-enter-active { opacity: 1; transform: translateY(0); transition: all 300ms ease-out; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #020617; }
+::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
